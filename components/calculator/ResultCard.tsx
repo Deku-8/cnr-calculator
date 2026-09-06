@@ -1,34 +1,113 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Copy, Sparkles } from 'lucide-react';
+import { Check, Copy, Code2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Calculation } from '@/lib/combinatorics';
 
 export function ResultCard({ calculation }: { calculation: Calculation }) {
-  const [copied, setCopied] = useState(false);
-  async function copySolution() {
-    const text = `สูตรทั่วไป\n${calculation.general}\n\nแทนค่า\n${calculation.substituted}\n\nวิธีทำ\n${calculation.simplification}\n\nคำตอบ: ${calculation.answer}`;
+  const [copiedType, setCopiedType] = useState<'answer' | 'full' | 'latex' | null>(null);
+
+  async function copyText(text: string, type: 'answer' | 'full' | 'latex') {
     await navigator.clipboard.writeText(text);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+    setCopiedType(type);
+    window.setTimeout(() => setCopiedType(null), 1800);
   }
+
+  function copyFullSolution() {
+    const text = [
+      `【วิธีทำการคำนวณและตัดทอน】`,
+      `โจทย์: ${calculation.answerLabel}`,
+      `สูตร: ${calculation.general}`,
+      `แทนค่า: ${calculation.substituted}`,
+      `ผลลัพธ์: ${calculation.answer}`,
+      calculation.note ? `หมายเหตุ: ${calculation.note}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    copyText(text, 'full');
+  }
+
+  function copyLatex() {
+    const latex =
+      calculation.latexFormula ||
+      `${calculation.detailedCancellation?.formulaLaTeX ?? ''} = ${calculation.answer}`;
+    copyText(latex, 'latex');
+  }
+
   return (
-    <section aria-live="polite" className="overflow-hidden rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-900/10 dark:border-indigo-700">
-      <div className="p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="flex items-center gap-2 text-sm font-semibold text-indigo-100"><Sparkles aria-hidden="true" className="size-4" />คำตอบสุดท้าย</p>
-            <p className="mt-2 text-sm text-indigo-100">{calculation.answerLabel}</p>
+    <section
+      aria-live="polite"
+      className="relative overflow-hidden rounded-2xl border border-indigo-200/80 bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-4 text-white shadow-md shadow-indigo-950/10 dark:border-indigo-800/80"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {/* Answer Label & Number */}
+        <div>
+          <span className="text-xs font-medium text-indigo-100/90">
+            {calculation.answerLabel}
+          </span>
+          <div className="math-scroll mt-0.5 overflow-x-auto font-mono text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            {calculation.answer}
           </div>
-          <Button onClick={copySolution} variant="secondary" className="h-10 bg-white/15 px-3 text-white hover:bg-white/25">
-            {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-            <span className="hidden sm:inline">{copied ? 'คัดลอกแล้ว' : 'คัดลอกวิธีทำ'}</span>
+        </div>
+
+        {/* Compact Action Buttons */}
+        <div className="flex items-center gap-1.5 self-center">
+          <Button
+            onClick={() => copyText(calculation.answer, 'answer')}
+            variant="secondary"
+            size="sm"
+            className="h-8 gap-1 border border-white/20 bg-white/15 px-2.5 text-xs text-white hover:bg-white/25 backdrop-blur-sm"
+          >
+            {copiedType === 'answer' ? (
+              <>
+                <Check className="size-3.5 text-emerald-300" /> คัดลอกแล้ว
+              </>
+            ) : (
+              <>
+                <Copy className="size-3.5" /> คัดลอกคำตอบ
+              </>
+            )}
+          </Button>
+
+          <Button
+            onClick={copyFullSolution}
+            variant="secondary"
+            size="sm"
+            className="h-8 gap-1 border border-white/20 bg-white/15 px-2.5 text-xs text-white hover:bg-white/25 backdrop-blur-sm hidden sm:inline-flex"
+            title="คัดลอกวิธีทำฉบับเต็ม"
+          >
+            {copiedType === 'full' ? (
+              <>
+                <Check className="size-3.5 text-emerald-300" /> คัดลอกแล้ว
+              </>
+            ) : (
+              'วิธีทำ'
+            )}
+          </Button>
+
+          <Button
+            onClick={copyLatex}
+            variant="secondary"
+            size="sm"
+            className="h-8 gap-1 border border-white/20 bg-white/15 px-2 text-xs text-white hover:bg-white/25 backdrop-blur-sm"
+            title="คัดลอกสูตร LaTeX"
+          >
+            {copiedType === 'latex' ? (
+              <Check className="size-3.5 text-emerald-300" />
+            ) : (
+              <Code2 className="size-3.5" />
+            )}
           </Button>
         </div>
-        <div className="math-scroll mt-3 overflow-x-auto pb-2 font-mono text-3xl font-bold tracking-tight sm:text-4xl">{calculation.answer}</div>
-        {calculation.note && <p className="mt-2 text-sm text-indigo-100">{calculation.note}</p>}
       </div>
+
+      {calculation.note && (
+        <p className="mt-2 text-xs text-indigo-100/90 border-t border-white/10 pt-1.5">
+          {calculation.note}
+        </p>
+      )}
     </section>
   );
 }

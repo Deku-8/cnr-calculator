@@ -1,3 +1,5 @@
+import type { DetailedCancellation } from './cancellation.ts';
+
 export const MAX_INPUT = 10_000;
 
 export type Calculation = {
@@ -7,6 +9,8 @@ export type Calculation = {
   answer: string;
   answerLabel: string;
   note?: string;
+  latexFormula?: string;
+  detailedCancellation?: DetailedCancellation;
 };
 
 export function parseNonNegativeInteger(value: string, label: string): number {
@@ -54,6 +58,23 @@ export function advancedFactorialQuotient(a: number, b: number, c: number): { nu
   return reduceFraction(factorial(a), factorial(b) * factorial(c));
 }
 
+export function multisetPermutation(counts: number[]): bigint {
+  if (!counts.length) return 0n;
+  for (const c of counts) {
+    if (!Number.isInteger(c) || c < 0) throw new Error('จำนวนสิ่งของแต่ละกลุ่มต้องเป็นจำนวนเต็มที่ไม่ติดลบ');
+  }
+  let totalN = counts.reduce((sum, val) => sum + val, 0);
+  if (totalN === 0) return 1n;
+  let result = 1n;
+  for (const count of counts) {
+    if (count > 0) {
+      result *= combination(totalN, count);
+      totalN -= count;
+    }
+  }
+  return result;
+}
+
 export function formatBigInt(value: bigint): string {
   const sign = value < 0n ? '-' : '';
   const digits = (value < 0n ? -value : value).toString();
@@ -86,10 +107,12 @@ function validateSingle(value: number, label: string) {
   if (!Number.isInteger(value) || value < 0) throw new Error(`${label} ต้องเป็นจำนวนเต็มที่ไม่ติดลบ`);
 }
 
-function gcd(a: bigint, b: bigint): bigint {
+export function gcdBigInt(a: bigint, b: bigint): bigint {
   while (b !== 0n) [a, b] = [b, a % b];
   return a;
 }
+
+const gcd = gcdBigInt;
 
 function reduceFraction(numerator: bigint, denominator: bigint) {
   const divisor = gcd(numerator, denominator);
