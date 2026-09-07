@@ -12,6 +12,7 @@ import {
   Trophy,
   Award,
   BookOpen,
+  HelpCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -406,13 +407,49 @@ export function PracticeTrainer({
 
       {/* Question Body */}
       <div className="mt-4 space-y-4">
-        <div>
-          <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
-            หมวด: {question.category}
-          </span>
-          <p className="mt-1 text-base font-semibold leading-relaxed text-slate-900 dark:text-slate-100 sm:text-lg">
-            {question.scenario}
-          </p>
+        {/* High-Contrast Question & Answer Box */}
+        <div className="relative overflow-hidden rounded-2xl border-2 border-indigo-500/40 bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 p-4 sm:p-5 text-white shadow-lg shadow-indigo-950/25 dark:border-indigo-500/50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-900 ring-4 ring-indigo-500/10">
+          {/* Top Info Bar: Category and Question Number Badge */}
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-2.5">
+            <div className="flex items-center gap-2">
+              <span className="grid size-6 place-items-center rounded-lg bg-indigo-500 text-white shadow-xs">
+                <HelpCircle className="size-3.5" />
+              </span>
+              <span className="inline-flex items-center rounded-full bg-indigo-500/30 px-2.5 py-0.5 text-xs font-bold text-indigo-200 border border-indigo-400/30">
+                หมวด: {question.category}
+              </span>
+            </div>
+            <span className="font-mono text-xs font-bold text-indigo-300/90">
+              โจทย์ข้อที่ {currentIndex + 1} จาก {questions.length}
+            </span>
+          </div>
+
+          {/* Question Scenario */}
+          <div className="pt-3">
+            <p className="text-base sm:text-lg font-bold leading-relaxed text-white tracking-wide">
+              {question.scenario}
+            </p>
+          </div>
+
+          {/* Answer Box: Displayed with maximum prominence once answered */}
+          {isAnswered && (
+            <div className="mt-4 pt-3.5 border-t border-white/15 animate-in fade-in slide-in-from-top-1">
+              <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-xl bg-white/10 p-3 backdrop-blur-xs border border-white/20">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="rounded-lg bg-amber-400 px-2.5 py-1 text-xs font-black text-slate-950 shadow-xs flex items-center gap-1">
+                    <Sparkles className="size-3 text-slate-950" />
+                    เฉลยคำตอบ:
+                  </span>
+                  <span className="font-mono text-base sm:text-lg font-black text-amber-300 tracking-wide">
+                    {question.formulaDisplay} = {question.answerDisplay}
+                  </span>
+                </div>
+                <span className="text-xs font-bold text-indigo-200 bg-indigo-500/30 px-2.5 py-1 rounded-lg border border-indigo-400/30">
+                  เครื่องมือที่ถูกต้อง: {modeOptions.find((o) => o.mode === question.correctMode)?.label}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Step 1: 5 Tool Option Buttons */}
@@ -763,21 +800,6 @@ export function PracticeTrainer({
               </Button>
 
               <div className="flex items-center gap-2">
-                {!currentResult.isAllCorrect && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setIsAnswered(false);
-                      setCurrentResult(null);
-                    }}
-                    className="h-9 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
-                  >
-                    <RotateCcw className="size-3.5 mr-1" />
-                    ลองตอบใหม่อีกครั้ง
-                  </Button>
-                )}
-
                 <Button
                   onClick={handleNext}
                   className="h-9 gap-1 rounded-xl bg-indigo-600 px-4 text-xs font-bold text-white shadow-xs hover:bg-indigo-700 dark:bg-indigo-500"
