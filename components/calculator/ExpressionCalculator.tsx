@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { CancellationVisualizer } from './CancellationVisualizer';
+import { MathEquation } from './MathFraction';
 import {
   evaluateExpression,
   type ExpressionResult,
@@ -461,8 +462,8 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
               </div>
 
               <div className="py-4 text-center">
-                <div className="font-mono text-3xl sm:text-4xl font-extrabold tracking-tight text-indigo-900 dark:text-indigo-200 break-all">
-                  {result.finalValueString}
+                <div className="font-mono text-3xl sm:text-4xl font-extrabold tracking-tight text-indigo-900 dark:text-indigo-200 break-all inline-flex items-center justify-center">
+                  <MathEquation text={result.finalValueString} />
                 </div>
 
                 {/* Additional Badges for Probability / Fraction */}
@@ -565,8 +566,8 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
                 <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                   1. แทนค่าผลลัพธ์ลงในนิพจน์:
                 </span>
-                <div className="rounded-xl border border-indigo-100 bg-indigo-50/40 p-3 font-mono text-xs text-indigo-950 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-200 break-all leading-relaxed w-full min-w-0">
-                  {result.substitutedExpression}
+                <div className="rounded-xl border border-indigo-100 bg-indigo-50/40 p-3 font-mono text-xs text-indigo-950 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-200 break-all leading-relaxed w-full min-w-0 overflow-x-auto math-scroll">
+                  <MathEquation text={result.substitutedExpression} />
                 </div>
               </div>
 

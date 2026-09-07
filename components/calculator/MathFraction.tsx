@@ -70,7 +70,7 @@ export function Fraction({
       <span className="px-1 text-center text-[0.88em] font-bold leading-tight">
         {num}
       </span>
-      <span className="h-[1.5px] w-full min-w-[18px] bg-current rounded-full my-0.5 opacity-80" />
+      <span className="h-[0.07em] min-h-[1.5px] w-full min-w-[18px] bg-current rounded-full my-0.5 opacity-85" />
       <span className="px-1 text-center text-[0.88em] font-bold leading-tight">
         {den}
       </span>

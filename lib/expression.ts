@@ -147,10 +147,46 @@ export function extractAndEvaluateSubTerms(expr: string): {
   return { subTerms, replacedExpr: currentExpr };
 }
 
+export type Rational = {
+  num: bigint;
+  den: bigint;
+};
+
+export function makeRational(n: bigint, d: bigint = 1n): Rational {
+  if (d === 0n) throw new Error('ตัวส่วนเป็นศูนย์ ไม่สามารถหารได้');
+  if (d < 0n) {
+    n = -n;
+    d = -d;
+  }
+  const g = gcdBigInt(n < 0n ? -n : n, d);
+  return { num: n / g, den: d / g };
+}
+
+export function addRational(a: Rational, b: Rational): Rational {
+  return makeRational(a.num * b.den + b.num * a.den, a.den * b.den);
+}
+
+export function subRational(a: Rational, b: Rational): Rational {
+  return makeRational(a.num * b.den - b.num * a.den, a.den * b.den);
+}
+
+export function mulRational(a: Rational, b: Rational): Rational {
+  return makeRational(a.num * b.num, a.den * b.den);
+}
+
+export function divRational(a: Rational, b: Rational): Rational {
+  if (b.num === 0n) throw new Error('ตัวส่วนเป็นศูนย์ ไม่สามารถหารได้');
+  return makeRational(a.num * b.den, a.den * b.num);
+}
+
 /**
- * Parses and evaluates an arithmetic expression safely using BigInt/number logic
+ * Parses and evaluates an arithmetic expression safely with strict order of operations (BODMAS / PEMDAS):
+ * 1. Parentheses ( )
+ * 2. Multiplication & Division (from left to right)
+ * 3. Addition & Subtraction (from left to right)
+ * Evaluates using exact BigInt Rational arithmetic.
  */
-export function evaluateArithmetic(expr: string): bigint {
+export function evaluateArithmeticRational(expr: string): Rational {
   // Validate characters: only digits, +, -, *, /, (, )
   if (!/^[0-9+\-*/()]+$/.test(expr)) {
     throw new Error('นิพจน์มีสัญลักษณ์ที่ไม่ถูกต้อง');
@@ -176,8 +212,7 @@ export function evaluateArithmetic(expr: string): bigint {
     }
   }
 
-  // Shunting Yard Algorithm to evaluate with operator precedence
-  const values: bigint[] = [];
+  const values: Rational[] = [];
   const ops: string[] = [];
 
   const precedence: Record<string, number> = {
@@ -193,17 +228,16 @@ export function evaluateArithmetic(expr: string): bigint {
     const a = values.pop()!;
     switch (op) {
       case '+':
-        values.push(a + b);
+        values.push(addRational(a, b));
         break;
       case '-':
-        values.push(a - b);
+        values.push(subRational(a, b));
         break;
       case '*':
-        values.push(a * b);
+        values.push(mulRational(a, b));
         break;
       case '/':
-        if (b === 0n) throw new Error('ตัวส่วนเป็นศูนย์ ไม่สามารถหารได้');
-        values.push(a / b);
+        values.push(divRational(a, b));
         break;
       default:
         throw new Error(`ตัวดำเนินการไม่ถูกต้อง ${op}`);
@@ -213,7 +247,7 @@ export function evaluateArithmetic(expr: string): bigint {
   for (let idx = 0; idx < tokens.length; idx++) {
     const token = tokens[idx];
     if (/^\d+$/.test(token)) {
-      values.push(BigInt(token));
+      values.push(makeRational(BigInt(token), 1n));
     } else if (token === '(') {
       ops.push(token);
     } else if (token === ')') {
@@ -223,10 +257,17 @@ export function evaluateArithmetic(expr: string): bigint {
       if (ops.length === 0) throw new Error('วงเล็บปิดไม่ตรงกับวงเล็บเปิด');
       ops.pop(); // Remove '('
     } else if (['+', '-', '*', '/'].includes(token)) {
-      // Check for unary minus at start or after operator
-      if (token === '-' && (idx === 0 || ['(', '+', '-', '*', '/'].includes(tokens[idx - 1]))) {
-        values.push(0n);
+      // Check for unary operator (+ or -)
+      const isUnary = idx === 0 || ['(', '+', '-', '*', '/'].includes(tokens[idx - 1]);
+      if (isUnary) {
+        if (token === '+') {
+          continue; // Unary plus can be ignored
+        }
+        if (token === '-') {
+          values.push(makeRational(0n, 1n)); // Convert unary -X to 0 - X
+        }
       }
+
       while (
         ops.length > 0 &&
         ops[ops.length - 1] !== '(' &&
@@ -249,8 +290,25 @@ export function evaluateArithmetic(expr: string): bigint {
 }
 
 /**
- * Checks if the expression has a top-level division (Fraction Form)
- * E.g. "(C30,3 - C25,3) / C30,3" or "C5,2 / C10,2"
+ * Parses and evaluates an arithmetic expression safely using BigInt/number logic
+ */
+export function evaluateArithmetic(expr: string): bigint {
+  const r = evaluateArithmeticRational(expr);
+  if (r.den !== 1n) {
+    return r.num / r.den;
+  }
+  return r.num;
+}
+
+/**
+ * Checks if the expression has a top-level division (Fraction Form A / B)
+ * Returns null if there are addition/subtraction operators at top level,
+ * or multiplication after division at top level, because in those cases
+ * division is NOT the outermost operation of the expression.
+ * E.g.
+ * - "(C30,3 - C25,3) / C30,3" -> { numerator: "(C30,3 - C25,3)", denominator: "C30,3" }
+ * - "C(4,1) * C(48,4) / C(52,5)" -> { numerator: "C(4,1) * C(48,4)", denominator: "C(52,5)" }
+ * - "C(5,2) + C(5,1) / C(4,2)" -> null (top-level operator is +, so C(5,1)/C(4,2) is evaluated first)
  */
 export function findTopLevelDivision(expr: string): {
   numerator: string;
@@ -258,26 +316,38 @@ export function findTopLevelDivision(expr: string): {
 } | null {
   let parenDepth = 0;
   let divIndex = -1;
+  let hasTopLevelAddSub = false;
+  let hasMultipleDiv = false;
+  let hasMulAfterDiv = false;
 
   for (let i = 0; i < expr.length; i++) {
     const char = expr[i];
-    if (char === '(') parenDepth++;
-    else if (char === ')') parenDepth--;
-    else if (char === '/' && parenDepth === 0) {
-      if (divIndex !== -1) {
-        // Multiple top-level divisions, treat as chain
-        return null;
+    if (char === '(') {
+      parenDepth++;
+    } else if (char === ')') {
+      parenDepth--;
+    } else if (parenDepth === 0) {
+      if (char === '+' || char === '-') {
+        hasTopLevelAddSub = true;
+      } else if (char === '/') {
+        if (divIndex !== -1) {
+          hasMultipleDiv = true;
+        }
+        divIndex = i;
+      } else if (char === '*' && divIndex !== -1) {
+        hasMulAfterDiv = true;
       }
-      divIndex = i;
     }
   }
 
-  if (divIndex !== -1) {
-    const num = expr.slice(0, divIndex).trim();
-    const den = expr.slice(divIndex + 1).trim();
-    if (num && den) {
-      return { numerator: num, denominator: den };
-    }
+  if (hasTopLevelAddSub || hasMultipleDiv || hasMulAfterDiv || divIndex === -1) {
+    return null;
+  }
+
+  const num = expr.slice(0, divIndex).trim();
+  const den = expr.slice(divIndex + 1).trim();
+  if (num && den) {
+    return { numerator: num, denominator: den };
   }
 
   return null;
@@ -308,7 +378,7 @@ export function evaluateExpression(rawInput: string): ExpressionResult {
     if (m) topLevelCancellation = getPermutationCancellation(Number(m[1]), Number(m[2]));
   }
 
-  // 1. Check if top-level expression is a fraction A / B
+  // 1. Check if top-level expression is a single fraction A / B
   const topFraction = findTopLevelDivision(sanitized);
 
   if (topFraction) {
@@ -319,14 +389,21 @@ export function evaluateExpression(rawInput: string): ExpressionResult {
 
     const allSubTerms = [...numSubTerms, ...denSubTerms];
 
-    const numVal = evaluateArithmetic(numReplaced);
-    const denVal = evaluateArithmetic(denReplaced);
+    const numRat = evaluateArithmeticRational(numReplaced);
+    const denRat = evaluateArithmeticRational(denReplaced);
 
-    if (denVal === 0n) throw new Error('ตัวส่วนมีค่าเป็น 0 ไม่สามารถหาผลลัพธ์ได้');
+    if (denRat.num === 0n) throw new Error('ตัวส่วนมีค่าเป็น 0 ไม่สามารถหาผลลัพธ์ได้');
 
-    const g = gcdBigInt(numVal < 0n ? -numVal : numVal, denVal < 0n ? -denVal : denVal);
-    const numReduced = numVal / g;
-    const denReduced = denVal / g;
+    const finalRat = divRational(numRat, denRat);
+    const isPureIntegerFraction = numRat.den === 1n && denRat.den === 1n;
+    const numVal = isPureIntegerFraction ? numRat.num : finalRat.num;
+    const denVal = isPureIntegerFraction ? denRat.num : finalRat.den;
+
+    const g = isPureIntegerFraction
+      ? gcdBigInt(numVal < 0n ? -numVal : numVal, denVal < 0n ? -denVal : denVal)
+      : 1n;
+    const numReduced = finalRat.num;
+    const denReduced = finalRat.den;
     const isReduced = g > 1n;
 
     const finalValStr =
@@ -335,8 +412,10 @@ export function evaluateExpression(rawInput: string): ExpressionResult {
         : `${formatBigInt(numReduced)} / ${formatBigInt(denReduced)}`;
 
     // Decimal approximation & percentage for probability
-    const decimalNum = Number(numVal) / Number(denVal);
-    const decimalString = Number.isFinite(decimalNum) ? decimalNum.toFixed(6).replace(/\.?0+$/, '') : undefined;
+    const decimalNum = Number(numReduced) / Number(denReduced);
+    const decimalString = Number.isFinite(decimalNum)
+      ? decimalNum.toFixed(6).replace(/\.?0+$/, '')
+      : undefined;
     const percentageString =
       Number.isFinite(decimalNum) && decimalNum >= 0 && decimalNum <= 1
         ? `${(decimalNum * 100).toFixed(2)}%`
@@ -353,12 +432,17 @@ export function evaluateExpression(rawInput: string): ExpressionResult {
         }
       : undefined;
 
+    const substitutedExprStr =
+      isPureIntegerFraction && isReduced
+        ? `(${numReplaced}) / (${denReplaced}) = ${formatBigInt(numVal)} / ${formatBigInt(denVal)} = ${finalValStr}`
+        : `(${numReplaced}) / (${denReplaced}) = ${finalValStr}`;
+
     return {
       original: trimmed,
       sanitized,
       subTerms: allSubTerms,
-      substitutedExpression: `(${numReplaced}) / (${denReplaced}) = ${formatBigInt(numVal)} / ${formatBigInt(denVal)}`,
-      isFraction: true,
+      substitutedExpression: substitutedExprStr,
+      isFraction: denReduced !== 1n,
       numeratorExpr: topFraction.numerator,
       denominatorExpr: topFraction.denominator,
       numeratorRaw: numVal,
@@ -375,18 +459,47 @@ export function evaluateExpression(rawInput: string): ExpressionResult {
     };
   }
 
-  // 2. Non-fraction or nested expression
+  // 2. Full arithmetic expression (respects PEMDAS: () -> * and / -> + and -)
   const { subTerms, replacedExpr } = extractAndEvaluateSubTerms(sanitized);
-  const result = evaluateArithmetic(replacedExpr);
+  const rational = evaluateArithmeticRational(replacedExpr);
+
+  const isFraction = rational.den !== 1n;
+  const numReduced = rational.num;
+  const denReduced = rational.den;
+
+  const finalValStr = isFraction
+    ? `${formatBigInt(numReduced)} / ${formatBigInt(denReduced)}`
+    : formatBigInt(numReduced);
+
+  const decimalNum = isFraction ? Number(numReduced) / Number(denReduced) : Number(numReduced);
+  const decimalString = Number.isFinite(decimalNum)
+    ? decimalNum.toFixed(6).replace(/\.?0+$/, '')
+    : undefined;
+  const percentageString =
+    Number.isFinite(decimalNum) && decimalNum >= 0 && decimalNum <= 1
+      ? `${(decimalNum * 100).toFixed(2)}%`
+      : undefined;
+
+  // Format replaced expression with clean spacing around operators
+  const formattedReplaced = replacedExpr
+    .replace(/\s+/g, '')
+    .replace(/([+\-*/])/g, ' $1 ');
 
   return {
     original: trimmed,
     sanitized,
     subTerms,
-    substitutedExpression: `${replacedExpr} = ${formatBigInt(result)}`,
-    isFraction: false,
-    finalValueString: formatBigInt(result),
+    substitutedExpression: `${formattedReplaced} = ${finalValStr}`,
+    isFraction,
+    numeratorRaw: isFraction ? numReduced : undefined,
+    denominatorRaw: isFraction ? denReduced : undefined,
+    numeratorReduced: isFraction ? numReduced : undefined,
+    denominatorReduced: isFraction ? denReduced : undefined,
+    gcd: isFraction ? 1n : undefined,
     isReduced: false,
+    finalValueString: finalValStr,
+    decimalString: isFraction ? decimalString : undefined,
+    percentageString,
     topLevelCancellation,
   };
 }
