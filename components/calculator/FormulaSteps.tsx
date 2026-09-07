@@ -66,12 +66,12 @@ export function FormulaSteps({ calculation }: { calculation: Calculation }) {
       )}
 
       {/* Clean Unified Formula & Substitution Card */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2 text-xs dark:border-slate-800/80">
-          <span className="text-slate-500 dark:text-slate-400">สูตรที่ใช้:</span>
-          <span className="font-mono font-semibold text-indigo-600 dark:text-indigo-400">{calculation.general}</span>
+      <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2 text-xs dark:border-slate-800/80 min-w-0">
+          <span className="text-slate-500 dark:text-slate-400 shrink-0">สูตรที่ใช้:</span>
+          <span className="font-mono font-semibold text-indigo-600 dark:text-indigo-400 break-all">{calculation.general}</span>
         </div>
-        <div className="math-scroll pt-2 font-mono text-sm sm:text-base font-medium text-slate-900 dark:text-slate-100">
+        <div className="math-scroll w-full min-w-0 overflow-x-auto pt-2 font-mono text-sm sm:text-base font-medium text-slate-900 dark:text-slate-100 break-words">
           {calculation.substituted}
         </div>
       </div>
@@ -80,8 +80,8 @@ export function FormulaSteps({ calculation }: { calculation: Calculation }) {
       {calculation.detailedCancellation ? (
         <CancellationVisualizer cancellation={calculation.detailedCancellation} />
       ) : (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
-          <div className="math-scroll overflow-x-auto font-mono text-base text-slate-900 dark:text-slate-100">
+        <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
+          <div className="math-scroll w-full min-w-0 overflow-x-auto font-mono text-base text-slate-900 dark:text-slate-100">
             {calculation.simplification}
           </div>
         </div>

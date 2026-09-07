@@ -147,17 +147,17 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
   const activeTerm = visualizableTerms[safeIndex];
 
   return (
-    <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+    <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       {/* Left Column: Formula Input, Presets, Keypad */}
-      <section className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 dark:border-slate-800/80">
-          <div className="flex items-center gap-2">
+      <section className="w-full min-w-0 rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5 space-y-4">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5 dark:border-slate-800/80 min-w-0">
+          <div className="flex items-center gap-2 shrink-0">
             <Calculator className="size-4 text-indigo-600 dark:text-indigo-400" />
             <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200">
               เครื่องคิดเลข
             </h2>
           </div>
-          <span className="text-[11px] text-slate-400 font-mono">
+          <span className="text-[11px] text-slate-400 font-mono truncate min-w-0 text-right">
             รองรับ C, P, !, +, −, ×, ÷, (), {'{}'}
           </span>
         </div>
@@ -435,11 +435,11 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
       </section>
 
       {/* Right Column: Results & Hand Calculation Cancellation Visualizer */}
-      <div className="space-y-4">
+      <div className="w-full min-w-0 space-y-4">
         {result ? (
           <>
             {/* Final Answer Hero Card */}
-            <section className="rounded-2xl border border-indigo-100 bg-linear-to-br from-white via-indigo-50/30 to-indigo-100/20 p-4 shadow-sm dark:border-indigo-950/60 dark:from-slate-900 dark:via-indigo-950/20 dark:to-slate-900 sm:p-5">
+            <section className="w-full min-w-0 overflow-hidden rounded-2xl border border-indigo-100 bg-linear-to-br from-white via-indigo-50/30 to-indigo-100/20 p-4 shadow-sm dark:border-indigo-950/60 dark:from-slate-900 dark:via-indigo-950/20 dark:to-slate-900 sm:p-5">
               <div className="flex items-center justify-between gap-2 border-b border-indigo-100/70 pb-3 dark:border-indigo-950/60">
                 <div className="flex items-center gap-2">
                   <Badge variant="outline" className="border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
@@ -490,14 +490,14 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
 
             {/* 1. Direct Factorial Quotient Cancellation (e.g. 10! / (7! * 3!) or single C/P) */}
             {result.topLevelCancellation && (
-              <section className="space-y-3">
-                <div className="rounded-2xl border border-indigo-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-indigo-900/60 dark:bg-slate-900/90 sm:p-5">
-                  <div className="mb-3 flex items-center justify-between border-b border-indigo-100 pb-2.5 dark:border-indigo-950/60">
-                    <h3 className="text-xs font-bold text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5">
+              <section className="space-y-3 w-full min-w-0">
+                <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-indigo-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-indigo-900/60 dark:bg-slate-900/90 sm:p-5">
+                  <div className="mb-3 flex items-center justify-between border-b border-indigo-100 pb-2.5 dark:border-indigo-950/60 min-w-0">
+                    <h3 className="text-xs font-bold text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5 shrink-0">
                       <Sparkles className="size-3.5 text-indigo-600 dark:text-indigo-400" />
                       การตัดทอนในรูปแฟกทอเรียล (Factorial Cancellation)
                     </h3>
-                    <span className="font-mono text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
+                    <span className="font-mono text-xs text-indigo-600 dark:text-indigo-400 font-semibold truncate min-w-0">
                       {result.topLevelCancellation.formulaLaTeX}
                     </span>
                   </div>
@@ -508,7 +508,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
 
             {/* 2. Factorial Cancellation for Subterms (e.g. C(30,3), C(25,3), C(5,2)) */}
             {!result.topLevelCancellation && visualizableTerms.length > 0 && (
-              <section className="rounded-2xl border border-indigo-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-indigo-900/60 dark:bg-slate-900/90 sm:p-5 space-y-3">
+              <section className="w-full min-w-0 overflow-hidden rounded-2xl border border-indigo-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-indigo-900/60 dark:bg-slate-900/90 sm:p-5 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-indigo-100 pb-2.5 dark:border-indigo-950/60">
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="size-4 text-indigo-600 dark:text-indigo-400" />
@@ -555,29 +555,29 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             )}
 
             {/* 3. Substituted Expression & Final Fraction Reduction */}
-            <section className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5 space-y-4">
+            <section className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5 space-y-4">
               <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 pb-2 dark:border-slate-800/80">
                 ขั้นตอนการแทนค่าและตัดทอนเศษส่วนผลลัพธ์
               </h3>
 
               {/* Substituted Expression */}
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 w-full min-w-0">
                 <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                   1. แทนค่าผลลัพธ์ลงในนิพจน์:
                 </span>
-                <div className="rounded-xl border border-indigo-100 bg-indigo-50/40 p-3 font-mono text-xs text-indigo-950 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-200 break-all leading-relaxed">
+                <div className="rounded-xl border border-indigo-100 bg-indigo-50/40 p-3 font-mono text-xs text-indigo-950 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-200 break-all leading-relaxed w-full min-w-0">
                   {result.substitutedExpression}
                 </div>
               </div>
 
               {/* Fraction Reduction Step (if fraction) */}
               {result.isFraction && result.cancellationStep && (
-                <div className="space-y-2 pt-1 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="space-y-2 pt-1 border-t border-slate-100 dark:border-slate-800/80 w-full min-w-0">
                   <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-1">
                     <Divide className="size-3.5" /> 2. การตัดทอนเศษส่วนผลลัพธ์ (ห.ร.ม. = {formatBigInt(result.gcd || 1n)}):
                   </span>
 
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-3 bg-slate-50/70 dark:bg-slate-950/40 rounded-xl p-3">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 py-3 bg-slate-50/70 dark:bg-slate-950/40 rounded-xl p-3 w-full min-w-0 overflow-x-auto math-scroll">
                     {/* Before Reduction */}
                     <div className="flex flex-col items-center">
                       <span className="text-[11px] text-slate-400 mb-1">ก่อนตัดทอน</span>

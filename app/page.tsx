@@ -18,15 +18,17 @@ import type { Calculation } from '@/lib/combinatorics';
 
 const modeHeaders: Record<
   Mode,
-  { title: string; hint: string }
+  { title: string; hint: string; mobileHint?: string }
 > = {
   combination: {
     title: 'Combination',
     hint: 'เลือกกลุ่มสิ่งของโดยไม่สนใจลำดับ C(n,r)',
+    mobileHint: 'C(n, r) ไม่สนใจลำดับ',
   },
   permutation: {
     title: 'Permutation',
     hint: 'จัดเรียงสิ่งของโดยสนใจลำดับ P(n,r) (กรณี r ≠ n เพราะถ้า r = n จะซ้ำกับ n!)',
+    mobileHint: 'P(n, r) สนใจลำดับ (r ≠ n)',
   },
   multiset: {
     title: 'การเรียงสับเปลี่ยนของซ้ำ',
@@ -39,6 +41,7 @@ const modeHeaders: Record<
   expression: {
     title: 'เครื่องคิดเลข',
     hint: 'คำนวณหลายพจน์ ตัดทอนแฟกทอเรียล และหาความน่าจะเป็น',
+    mobileHint: 'คำนวณสูตรและตัดทอน',
   },
 };
 
@@ -120,8 +123,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.12),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.18),rgba(15,23,42,0))] px-3.5 py-4 sm:px-6 sm:py-7 lg:px-8 pb-20 sm:pb-8">
-      <div className="mx-auto max-w-5xl space-y-3.5 sm:space-y-5">
+    <main className="min-h-screen overflow-x-hidden bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.12),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.18),rgba(15,23,42,0))] px-3.5 py-4 sm:px-6 sm:py-7 lg:px-8 pb-20 sm:pb-8">
+      <div className="mx-auto max-w-5xl w-full min-w-0 space-y-3.5 sm:space-y-5">
         {/* Minimalist Header (Clean 2-row on mobile, 1-row on tablet/PC) */}
         <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 border-b border-slate-200/70 pb-3.5 sm:pb-4 dark:border-slate-800/70">
           <div className="flex items-center justify-between gap-3">
@@ -222,15 +225,22 @@ export default function Home() {
               />
             </TabsContent>
           ) : (
-            <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+            <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
               {/* Left Column: Form */}
-              <section className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5">
-                <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-2.5 dark:border-slate-800/80">
-                  <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+              <section className="w-full min-w-0 rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 sm:p-5">
+                <div className="mb-4 flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5 dark:border-slate-800/80 min-w-0">
+                  <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 shrink-0">
                     {modeHeaders[mode].title}
                   </h2>
-                  <span className="text-[11px] sm:text-xs text-slate-400 font-mono text-right truncate max-w-[55%] sm:max-w-none">
-                    {modeHeaders[mode].hint}
+                  <span className="text-[11px] sm:text-xs text-slate-400 font-mono text-right truncate min-w-0">
+                    {modeHeaders[mode].mobileHint ? (
+                      <>
+                        <span className="sm:hidden">{modeHeaders[mode].mobileHint}</span>
+                        <span className="hidden sm:inline">{modeHeaders[mode].hint}</span>
+                      </>
+                    ) : (
+                      modeHeaders[mode].hint
+                    )}
                   </span>
                 </div>
 
@@ -247,7 +257,7 @@ export default function Home() {
               </section>
 
               {/* Right Column: Results & Interactive Steps */}
-              <div className="space-y-4">
+              <div className="w-full min-w-0 space-y-4">
                 {result ? (
                   <>
                     <ResultCard calculation={result} />

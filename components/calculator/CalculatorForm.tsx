@@ -136,12 +136,12 @@ function Field({
 }) {
   const inputId = `input-${namespace}-${id}`;
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-full min-w-0">
       <label htmlFor={inputId} className="text-xs font-bold text-slate-700 dark:text-slate-200">
         {label}
       </label>
 
-      <div className="relative flex items-center">
+      <div className="relative flex w-full min-w-0 items-center">
         <Input
           id={inputId}
           inputMode="numeric"
@@ -151,7 +151,7 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${inputId}-error` : undefined}
-          className="h-11 rounded-xl bg-white pr-18 text-base font-semibold dark:bg-slate-950/60 shadow-xs border-slate-200 dark:border-slate-800"
+          className="h-11 w-full min-w-0 rounded-xl bg-white pr-18 text-base font-semibold dark:bg-slate-950/60 shadow-xs border-slate-200 dark:border-slate-800"
         />
 
         <div className="absolute right-1 flex items-center gap-0.5">
@@ -469,22 +469,22 @@ export function CalculatorForm({
         calculate();
       }}
       noValidate
-      className="space-y-4"
+      className="space-y-4 w-full min-w-0"
     >
       {/* Multiset Mode Specific UI */}
       {mode === 'multiset' && (
-        <div className="space-y-3">
+        <div className="space-y-3 w-full min-w-0">
           {/* Word Auto-Analyzer Tool */}
-          <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-2.5 dark:border-indigo-900/50 dark:bg-indigo-950/30">
+          <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-2.5 dark:border-indigo-900/50 dark:bg-indigo-950/30 w-full min-w-0">
             <label className="text-[11px] font-semibold text-indigo-700 dark:text-indigo-300 block mb-1">
               พิมพ์คำเพื่อนับตัวอักษรซ้ำอัตโนมัติ:
             </label>
-            <div className="flex gap-1.5">
+            <div className="flex gap-1.5 min-w-0">
               <Input
                 placeholder="เช่น STATISTICS, BANANA, กรรไกร"
                 value={wordInput}
                 onChange={(e) => setWordInput(e.target.value)}
-                className="h-8 bg-white dark:bg-slate-900 text-xs rounded-lg"
+                className="h-8 flex-1 min-w-0 bg-white dark:bg-slate-900 text-xs rounded-lg"
               />
               <Button
                 type="button"
@@ -499,38 +499,38 @@ export function CalculatorForm({
           </div>
 
           {/* Group Inputs Header & Total n */}
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-1 min-w-0">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
               กลุ่มของที่ซ้ำกัน (n₁, n₂, …):
             </span>
-            <span className="rounded-full bg-indigo-100 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+            <span className="rounded-full bg-indigo-100 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 shrink-0">
               ผลรวม n = {multisetTotalN} ชิ้น
             </span>
           </div>
 
           {/* Groups List */}
-          <div className="space-y-2 max-h-52 overflow-y-auto pr-1 math-scroll">
+          <div className="space-y-2 max-h-52 overflow-y-auto pr-1 math-scroll w-full min-w-0">
             {multisetGroups.map((group, idx) => (
               <div
                 key={group.id}
-                className="flex items-center gap-2 rounded-xl border border-slate-200/80 bg-white p-2 shadow-2xs dark:border-slate-800 dark:bg-slate-950/60"
+                className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-slate-200/80 bg-white p-2 shadow-2xs dark:border-slate-800 dark:bg-slate-950/60 min-w-0"
               >
-                <span className="text-xs font-mono text-slate-400 w-6 shrink-0 text-center">
+                <span className="text-xs font-mono text-slate-400 w-5 sm:w-6 shrink-0 text-center">
                   n{idx + 1}
                 </span>
                 <Input
                   value={group.label}
                   onChange={(e) => updateMultisetGroup(group.id, 'label', e.target.value)}
-                  placeholder="ชื่อกลุ่ม/สี"
-                  className="h-8 text-xs w-24 sm:w-28 rounded-lg bg-slate-50 dark:bg-slate-900 shrink-0"
+                  placeholder="ชื่อ/สี"
+                  className="h-8 text-xs w-20 sm:w-28 rounded-lg bg-slate-50 dark:bg-slate-900 shrink-0"
                 />
-                <div className="relative flex flex-1 items-center">
+                <div className="relative flex flex-1 min-w-0 items-center">
                   <Input
                     type="number"
                     min="1"
                     value={group.count}
                     onChange={(e) => updateMultisetGroup(group.id, 'count', e.target.value)}
-                    className="h-8 text-xs font-semibold pr-14 rounded-lg"
+                    className="h-8 text-xs font-semibold pr-12 sm:pr-14 rounded-lg w-full min-w-0"
                   />
                   <div className="absolute right-1 flex items-center gap-0.5">
                     <button
@@ -576,7 +576,7 @@ export function CalculatorForm({
           </Button>
 
           {/* Quick Multiset Presets */}
-          <div className="flex items-center gap-1 pt-1 text-xs text-slate-500 overflow-x-auto pb-1">
+          <div className="flex items-center gap-1 pt-1 text-xs text-slate-500 overflow-x-auto pb-1 w-full min-w-0">
             <span className="text-[11px] opacity-70 shrink-0">ตัวอย่าง:</span>
             <div className="flex gap-1 shrink-0">
               {multisetPresets.map((preset) => (
@@ -596,21 +596,22 @@ export function CalculatorForm({
 
       {/* Optional Compact Toggles */}
       {mode === 'combination' && (
-        <div className="flex items-center justify-between py-1 text-xs">
-          <label htmlFor="symmetry-mode" className="text-slate-600 dark:text-slate-300 font-medium">
+        <div className="flex items-center justify-between py-1 text-xs gap-2 min-w-0">
+          <label htmlFor="symmetry-mode" className="text-slate-600 dark:text-slate-300 font-medium truncate min-w-0">
             สมบัติสมมาตร C(n, r) = C(n, n−r)
           </label>
           <Switch
             id="symmetry-mode"
             checked={useSymmetry}
             onCheckedChange={setUseSymmetry}
+            className="shrink-0"
           />
         </div>
       )}
 
       {/* Input Fields for other modes */}
       {mode !== 'multiset' && (
-        <div className={`grid gap-3 ${fields.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+        <div className={`grid w-full min-w-0 gap-3 ${fields.length > 1 ? 'sm:grid-cols-2' : ''}`}>
           {fields.map((field) => (
             <Field
               key={field.id}

@@ -202,9 +202,9 @@ export function CancellationVisualizer({
   const isFinished = currentStep === totalSteps;
 
   return (
-    <div className="space-y-3 rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 sm:p-5">
+    <div className="w-full min-w-0 space-y-3 rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 sm:p-5 overflow-hidden">
       {/* Sleek Top Bar with Step Counter & Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5 dark:border-slate-800/70">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5 dark:border-slate-800/70 min-w-0">
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
             การตัดทอนเศษส่วน
@@ -297,7 +297,7 @@ export function CancellationVisualizer({
       </div>
 
       {/* Main Clean Fraction Display Canvas */}
-      <div className="math-scroll relative overflow-x-auto rounded-xl border border-slate-200/70 bg-slate-50/70 p-3 sm:p-4 dark:border-slate-800 dark:bg-slate-950/50">
+      <div className="math-scroll relative w-full min-w-0 overflow-x-auto rounded-xl border border-slate-200/70 bg-slate-50/70 p-3 sm:p-4 dark:border-slate-800 dark:bg-slate-950/50">
         <div className="flex min-w-max items-center justify-start sm:justify-center gap-2.5 sm:gap-3 py-2 sm:py-3 px-1">
           <span className="font-mono text-xl font-bold text-slate-400 dark:text-slate-500">
             =

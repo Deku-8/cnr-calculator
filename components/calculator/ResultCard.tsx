@@ -39,7 +39,7 @@ export function ResultCard({ calculation }: { calculation: Calculation }) {
   return (
     <section
       aria-live="polite"
-      className="relative overflow-hidden rounded-2xl border border-indigo-200/80 bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-4 text-white shadow-md shadow-indigo-950/10 dark:border-indigo-800/80"
+      className="relative w-full min-w-0 overflow-hidden rounded-2xl border border-indigo-200/80 bg-gradient-to-r from-indigo-600 to-blue-600 px-5 py-4 text-white shadow-md shadow-indigo-950/10 dark:border-indigo-800/80"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Answer Label & Number */}
