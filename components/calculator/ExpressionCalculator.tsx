@@ -175,7 +175,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
                 key={p.expr}
                 type="button"
                 onClick={() => handlePreset(p.expr)}
-                className="rounded-lg border border-slate-200/90 bg-slate-50/70 px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:border-indigo-300 hover:bg-indigo-50/60 hover:text-indigo-700 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-300 transition-colors"
+                className="rounded-lg border border-slate-200/90 bg-slate-50/70 px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:border-indigo-300 hover:bg-indigo-50/60 hover:text-indigo-700 active:scale-95 active:translate-y-0.5 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-300 transition-all duration-75 select-none cursor-pointer"
               >
                 <span className="font-mono">{p.label}</span>
               </button>
@@ -204,7 +204,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
               <button
                 type="button"
                 onClick={handleClear}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 active:scale-90 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-all"
                 title="ล้างข้อมูลทั้งหมด"
               >
                 <RotateCcw className="size-3.5" />
@@ -220,7 +220,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
 
           <Button
             type="submit"
-            className="w-full h-10 gap-1.5 rounded-xl bg-indigo-600 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 dark:bg-indigo-500"
+            className="w-full h-10 gap-1.5 rounded-xl bg-indigo-600 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 active:scale-[0.98] active:translate-y-0.5 dark:bg-indigo-500 cursor-pointer"
           >
             <CornerDownLeft className="size-3.5" />
             <span>คำนวณและแสดงขั้นตอนตัดทอน</span>
@@ -236,7 +236,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('C(')}
-              className="h-9 rounded-lg bg-indigo-50 font-mono text-xs font-bold text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
+              className="h-10 rounded-xl border border-indigo-200 border-b-[3px] border-b-indigo-300 bg-indigo-50/90 font-mono text-xs font-bold text-indigo-700 shadow-xs hover:bg-indigo-100 active:translate-y-[2px] active:border-b active:shadow-none active:bg-indigo-200/80 transition-all duration-75 select-none cursor-pointer dark:border-indigo-800 dark:border-b-indigo-950 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
               title="Combination C(n,r)"
             >
               C(n,r)
@@ -244,7 +244,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('P(')}
-              className="h-9 rounded-lg bg-indigo-50 font-mono text-xs font-bold text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
+              className="h-10 rounded-xl border border-indigo-200 border-b-[3px] border-b-indigo-300 bg-indigo-50/90 font-mono text-xs font-bold text-indigo-700 shadow-xs hover:bg-indigo-100 active:translate-y-[2px] active:border-b active:shadow-none active:bg-indigo-200/80 transition-all duration-75 select-none cursor-pointer dark:border-indigo-800 dark:border-b-indigo-950 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
               title="Permutation P(n,r)"
             >
               P(n,r)
@@ -252,7 +252,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('!')}
-              className="h-9 rounded-lg bg-indigo-50 font-mono text-xs font-bold text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
+              className="h-10 rounded-xl border border-indigo-200 border-b-[3px] border-b-indigo-300 bg-indigo-50/90 font-mono text-xs font-bold text-indigo-700 shadow-xs hover:bg-indigo-100 active:translate-y-[2px] active:border-b active:shadow-none active:bg-indigo-200/80 transition-all duration-75 select-none cursor-pointer dark:border-indigo-800 dark:border-b-indigo-950 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/80"
               title="Factorial"
             >
               n!
@@ -260,21 +260,21 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert(',')}
-              className="h-9 rounded-lg bg-slate-100 font-mono text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-slate-100/90 font-mono text-xs font-bold text-slate-700 shadow-xs hover:bg-slate-200/80 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-300/70 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
             >
               ,
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('{')}
-              className="h-9 rounded-lg bg-slate-100 font-mono text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-slate-100/90 font-mono text-xs font-bold text-slate-700 shadow-xs hover:bg-slate-200/80 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-300/70 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
             >
               {'{'}
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('}')}
-              className="h-9 rounded-lg bg-slate-100 font-mono text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-slate-100/90 font-mono text-xs font-bold text-slate-700 shadow-xs hover:bg-slate-200/80 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-300/70 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
             >
               {'}'}
             </button>
@@ -286,21 +286,21 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('(')}
-              className="h-9 rounded-lg bg-slate-100 font-mono text-xs font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-slate-100/90 font-mono text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-200/80 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-300/70 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-300"
             >
               (
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert(')')}
-              className="h-9 rounded-lg bg-slate-100 font-mono text-xs font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-slate-100/90 font-mono text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-200/80 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-300/70 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-300"
             >
               )
             </button>
             <button
               type="button"
               onClick={handleBackspace}
-              className="h-9 rounded-lg bg-rose-50 font-mono text-xs font-semibold text-rose-600 hover:bg-rose-100 dark:bg-rose-950/40 dark:text-rose-400"
+              className="h-10 rounded-xl border border-rose-200 border-b-[3px] border-b-rose-300 bg-rose-50/90 font-mono text-xs font-bold text-rose-600 shadow-xs hover:bg-rose-100 active:translate-y-[2px] active:border-b active:shadow-none active:bg-rose-200/80 transition-all duration-75 select-none cursor-pointer dark:border-rose-900 dark:border-b-rose-950 dark:bg-rose-950/50 dark:text-rose-400 dark:hover:bg-rose-900/60"
               title="ลบตัวอักษร"
             >
               ⌫
@@ -308,7 +308,7 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('/')}
-              className="h-9 rounded-lg bg-amber-100 font-mono text-sm font-bold text-amber-800 hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-300"
+              className="h-10 rounded-xl border border-amber-300 border-b-[3px] border-b-amber-400 bg-amber-100/90 font-mono text-base font-bold text-amber-900 shadow-xs hover:bg-amber-200 active:translate-y-[2px] active:border-b active:shadow-none active:bg-amber-300 transition-all duration-75 select-none cursor-pointer dark:border-amber-800 dark:border-b-amber-950 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/80"
               title="หาร"
             >
               ÷
@@ -318,28 +318,28 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('7')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               7
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('8')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               8
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('9')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               9
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('*')}
-              className="h-9 rounded-lg bg-amber-100 font-mono text-sm font-bold text-amber-800 hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-300"
+              className="h-10 rounded-xl border border-amber-300 border-b-[3px] border-b-amber-400 bg-amber-100/90 font-mono text-base font-bold text-amber-900 shadow-xs hover:bg-amber-200 active:translate-y-[2px] active:border-b active:shadow-none active:bg-amber-300 transition-all duration-75 select-none cursor-pointer dark:border-amber-800 dark:border-b-amber-950 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/80"
               title="คูณ"
             >
               ×
@@ -349,28 +349,28 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('4')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               4
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('5')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               5
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('6')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               6
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('-')}
-              className="h-9 rounded-lg bg-amber-100 font-mono text-sm font-bold text-amber-800 hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-300"
+              className="h-10 rounded-xl border border-amber-300 border-b-[3px] border-b-amber-400 bg-amber-100/90 font-mono text-base font-bold text-amber-900 shadow-xs hover:bg-amber-200 active:translate-y-[2px] active:border-b active:shadow-none active:bg-amber-300 transition-all duration-75 select-none cursor-pointer dark:border-amber-800 dark:border-b-amber-950 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/80"
               title="ลบ"
             >
               −
@@ -380,28 +380,28 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={() => handleKeypadInsert('1')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               1
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('2')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               2
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('3')}
-              className="h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               3
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('+')}
-              className="h-9 rounded-lg bg-amber-100 font-mono text-sm font-bold text-amber-800 hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-300"
+              className="h-10 rounded-xl border border-amber-300 border-b-[3px] border-b-amber-400 bg-amber-100/90 font-mono text-base font-bold text-amber-900 shadow-xs hover:bg-amber-200 active:translate-y-[2px] active:border-b active:shadow-none active:bg-amber-300 transition-all duration-75 select-none cursor-pointer dark:border-amber-800 dark:border-b-amber-950 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/80"
               title="บวก"
             >
               +
@@ -411,21 +411,21 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
             <button
               type="button"
               onClick={handleClear}
-              className="h-9 rounded-lg bg-slate-200/80 font-mono text-xs font-bold text-slate-700 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-300"
+              className="h-10 rounded-xl border border-slate-300 border-b-[3px] border-b-slate-400 bg-slate-200/90 font-mono text-xs font-bold text-slate-800 shadow-xs hover:bg-slate-300 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-400/80 transition-all duration-75 select-none cursor-pointer dark:border-slate-600 dark:border-b-slate-800 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-650"
             >
               AC
             </button>
             <button
               type="button"
               onClick={() => handleKeypadInsert('0')}
-              className="col-span-2 h-9 rounded-lg bg-slate-50 font-mono text-xs font-semibold text-slate-800 hover:bg-slate-200 dark:bg-slate-800/80 dark:text-slate-200"
+              className="col-span-2 h-10 rounded-xl border border-slate-200 border-b-[3px] border-b-slate-300 bg-white font-mono text-sm font-bold text-slate-800 shadow-xs hover:bg-slate-50 active:translate-y-[2px] active:border-b active:shadow-none active:bg-slate-100 transition-all duration-75 select-none cursor-pointer dark:border-slate-700 dark:border-b-slate-900 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-750"
             >
               0
             </button>
             <button
               type="button"
               onClick={() => calculate(expr)}
-              className="h-9 rounded-lg bg-indigo-600 font-mono text-sm font-bold text-white hover:bg-indigo-700 dark:bg-indigo-500"
+              className="h-10 rounded-xl border border-indigo-500 border-b-[3px] border-b-indigo-800 bg-indigo-600 font-mono text-base font-bold text-white shadow-xs hover:bg-indigo-700 active:translate-y-[2px] active:border-b active:shadow-none active:bg-indigo-800 transition-all duration-75 select-none cursor-pointer dark:border-indigo-500 dark:border-b-indigo-950 dark:bg-indigo-600"
               title="หาคำตอบ"
             >
               =

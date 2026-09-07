@@ -584,7 +584,7 @@ export function CalculatorForm({
                   key={preset.name}
                   type="button"
                   onClick={() => setMultisetGroups(preset.groups)}
-                  className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 transition-colors"
+                  className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-700 hover:bg-slate-200 active:scale-95 active:translate-y-0.5 select-none cursor-pointer dark:bg-slate-800 dark:text-slate-300 transition-all duration-75"
                 >
                   {preset.name}
                 </button>
@@ -640,7 +640,7 @@ export function CalculatorForm({
                   if (chip.values.c) setAdvanced(true);
                   setErrors({});
                 }}
-                className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors"
+                className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-700 hover:bg-slate-200 active:scale-95 active:translate-y-0.5 select-none cursor-pointer dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-all duration-75"
               >
                 {chip.label}
               </button>

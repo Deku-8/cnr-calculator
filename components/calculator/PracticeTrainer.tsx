@@ -26,6 +26,7 @@ import {
 } from '@/lib/practice';
 import type { Mode } from './ModeTabs';
 import type { Values } from './CalculatorForm';
+import { MathEquation } from './MathFraction';
 
 const modeOptions: { mode: Mode; label: string; sub: string; formulaSample: string }[] = [
   { mode: 'combination', label: 'Combination', sub: 'ไม่สนใจลำดับ C(n,r)', formulaSample: 'C(n, r)' },
@@ -307,10 +308,13 @@ export function PracticeTrainer({
                       </span>
                     </div>
 
-                    <div className="text-slate-700 dark:text-slate-300">
-                      → คำตอบที่ถูกต้อง:{' '}
-                      <strong className="text-indigo-700 dark:text-indigo-300">
-                        {correctOpt?.label} ({q.formulaDisplay} = {q.answerDisplay})
+                    <div className="text-slate-700 dark:text-slate-300 flex flex-wrap items-center gap-1.5">
+                      <span>→ คำตอบที่ถูกต้อง:</span>
+                      <strong className="text-indigo-700 dark:text-indigo-300 inline-flex flex-wrap items-center gap-1">
+                        <span>{correctOpt?.label}</span>
+                        <span>(</span>
+                        <MathEquation text={`${q.formulaDisplay} = ${q.answerDisplay}`} />
+                        <span>)</span>
                       </strong>
                     </div>
 
@@ -440,9 +444,9 @@ export function PracticeTrainer({
                     <Sparkles className="size-3 text-slate-950" />
                     เฉลยคำตอบ:
                   </span>
-                  <span className="font-mono text-base sm:text-lg font-black text-amber-300 tracking-wide">
-                    {question.formulaDisplay} = {question.answerDisplay}
-                  </span>
+                  <div className="font-mono text-base sm:text-lg font-black text-amber-300 tracking-wide inline-flex items-center">
+                    <MathEquation text={`${question.formulaDisplay} = ${question.answerDisplay}`} />
+                  </div>
                 </div>
                 <span className="text-xs font-bold text-indigo-200 bg-indigo-500/30 px-2.5 py-1 rounded-lg border border-indigo-400/30">
                   เครื่องมือที่ถูกต้อง: {modeOptions.find((o) => o.mode === question.correctMode)?.label}
@@ -481,7 +485,7 @@ export function PracticeTrainer({
                     isChosen
                       ? 'border-indigo-600 bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-600/20'
                       : 'border-slate-200/90 bg-white text-slate-800 hover:border-indigo-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800/80'
-                  } ${isAnswered ? 'cursor-default opacity-90' : 'cursor-pointer hover:-translate-y-0.5'}`}
+                  } ${isAnswered ? 'cursor-default opacity-90' : 'cursor-pointer hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 duration-75'}`}
                 >
                   <span className="font-bold text-xs sm:text-sm">{opt.label}</span>
                   <span
@@ -726,8 +730,10 @@ export function PracticeTrainer({
                   <h4 className="font-bold text-sm">
                     ถูกต้องครบถ้วนยอดเยี่ยม! 🎉 (+1 คะแนน)
                   </h4>
-                  <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-300">
-                    เลือกเครื่องมือ <strong>{modeOptions.find((o) => o.mode === selectedMode)?.label}</strong> และระบุสูตร/ตัวเลข <strong>{currentResult.userDisplayString}</strong> ได้ตรงตามสูตร {question.formulaDisplay} = {question.answerDisplay}
+                  <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-300 flex flex-wrap items-center gap-1">
+                    <span>เลือกเครื่องมือ</span> <strong>{modeOptions.find((o) => o.mode === selectedMode)?.label}</strong>
+                    <span>และระบุสูตร/ตัวเลข</span> <strong>{currentResult.userDisplayString}</strong>
+                    <span>ได้ตรงตามสูตร</span> <MathEquation text={`${question.formulaDisplay} = ${question.answerDisplay}`} />
                   </p>
                   <p className="text-[11px] text-emerald-700/90 dark:text-emerald-400/90 pt-1">
                     {question.explanation}
@@ -741,8 +747,10 @@ export function PracticeTrainer({
                   <h4 className="font-bold text-sm">
                     เลือกเครื่องมือถูกต้อง แต่ตัวเลขที่เติมยังไม่ตรง 💡
                   </h4>
-                  <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300">
-                    คุณเลือกเครื่องมือ <strong>{modeOptions.find((o) => o.mode === selectedMode)?.label}</strong> ถูกต้องแล้ว แต่ตัวเลขที่คุณระบุคือ <strong>{currentResult.userDisplayString}</strong> ซึ่งที่ถูกต้องของโจทย์นี้คือสูตร <strong>{question.formulaDisplay}</strong> ({question.answerDisplay})
+                  <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300 flex flex-wrap items-center gap-1">
+                    <span>คุณเลือกเครื่องมือ</span> <strong>{modeOptions.find((o) => o.mode === selectedMode)?.label}</strong>
+                    <span>ถูกต้องแล้ว แต่ตัวเลขที่คุณระบุคือ</span> <strong>{currentResult.userDisplayString}</strong>
+                    <span>ซึ่งที่ถูกต้องของโจทย์นี้คือสูตร</span> <MathEquation text={`${question.formulaDisplay} = ${question.answerDisplay}`} />
                   </p>
                   <p className="text-[11px] text-amber-700 dark:text-amber-400 pt-1">
                     {question.explanation}
@@ -756,8 +764,10 @@ export function PracticeTrainer({
                   <h4 className="font-bold text-sm">
                     ตัวเลขที่เติมสอดคล้อง แต่เครื่องมือยังไม่ตรงนิยาม 💡
                   </h4>
-                  <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300">
-                    คุณระบุค่าตัวเลข <strong>{currentResult.userDisplayString}</strong> ตรงกับจำนวนในโจทย์ แต่เครื่องมือทางคณิตศาสตร์ที่ถูกต้องตามบริบทคือ <strong>{modeOptions.find((o) => o.mode === question.correctMode)?.label}</strong> (สูตร {question.formulaDisplay})
+                  <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300 flex flex-wrap items-center gap-1">
+                    <span>คุณระบุค่าตัวเลข</span> <strong>{currentResult.userDisplayString}</strong>
+                    <span>ตรงกับจำนวนในโจทย์ แต่เครื่องมือทางคณิตศาสตร์ที่ถูกต้องตามบริบทคือ</span> <strong>{modeOptions.find((o) => o.mode === question.correctMode)?.label}</strong>
+                    <span>(สูตร</span> <MathEquation text={question.formulaDisplay} /><span>)</span>
                   </p>
                   <p className="text-[11px] text-amber-700 dark:text-amber-400 pt-1">
                     {question.explanation}
@@ -769,8 +779,10 @@ export function PracticeTrainer({
                 <AlertCircle className="size-5 text-rose-600 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <h4 className="font-bold text-sm">ยังไม่ถูกต้อง ❌</h4>
-                  <p className="text-xs leading-relaxed text-rose-800 dark:text-rose-300">
-                    เครื่องมือที่ถูกต้องคือ <strong>{modeOptions.find((o) => o.mode === question.correctMode)?.label}</strong> (สูตร {question.formulaDisplay} = {question.answerDisplay}) โดยคุณตอบ: {modeOptions.find((o) => o.mode === selectedMode)?.label} ({currentResult.userDisplayString})
+                  <p className="text-xs leading-relaxed text-rose-800 dark:text-rose-300 flex flex-wrap items-center gap-1">
+                    <span>เครื่องมือที่ถูกต้องคือ</span> <strong>{modeOptions.find((o) => o.mode === question.correctMode)?.label}</strong>
+                    <span>(สูตร</span> <MathEquation text={`${question.formulaDisplay} = ${question.answerDisplay}`} /><span>)</span>
+                    <span>โดยคุณตอบ:</span> <span>{modeOptions.find((o) => o.mode === selectedMode)?.label} ({currentResult.userDisplayString})</span>
                   </p>
                   {selectedMode === 'permutation' && question.correctMode === 'factorial' && (
                     <div className="mt-1 rounded-xl bg-amber-100/80 p-2.5 text-xs font-medium text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 border border-amber-200 dark:border-amber-900/60">
