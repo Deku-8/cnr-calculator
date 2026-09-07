@@ -47,7 +47,7 @@ export function ResultCard({ calculation }: { calculation: Calculation }) {
           <span className="text-xs font-medium text-indigo-100/90">
             {calculation.answerLabel}
           </span>
-          <div className="math-scroll mt-0.5 overflow-x-auto font-mono text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <div className="math-scroll mt-0.5 overflow-x-auto font-mono text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
             {calculation.answer}
           </div>
         </div>

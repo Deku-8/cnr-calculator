@@ -81,4 +81,5 @@
 .math-scroll {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklab, var(--primary) 35%, transparent) transparent;
+  -webkit-overflow-scrolling: touch;
 }

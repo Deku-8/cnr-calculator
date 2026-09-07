@@ -9,9 +9,10 @@ export function FormulaComparison() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-dashed border-indigo-300 bg-indigo-50/50 px-2.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100/70 dark:border-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-300 cursor-pointer">
-        <HelpCircle className="size-3.5" />
-        <span>เมื่อไหร่ควรใช้ C(n,r) หรือ P(n,r)?</span>
+      <DialogTrigger className="inline-flex h-8 items-center justify-center gap-1.5 rounded-xl border border-dashed border-indigo-300 bg-indigo-50/50 px-2.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100/70 dark:border-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-300 cursor-pointer shrink-0">
+        <HelpCircle className="size-3.5 shrink-0" />
+        <span className="hidden sm:inline">เมื่อไหร่ควรใช้ C(n,r) หรือ P(n,r)?</span>
+        <span className="sm:hidden">เมื่อไหร่ใช้ C vs P?</span>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl rounded-3xl p-6 sm:p-7">

@@ -42,13 +42,13 @@ export function ModeTabs() {
   return (
     <TabsList
       aria-label="เลือกประเภทการคำนวณ"
-      className="grid w-full grid-cols-2 gap-1.5 rounded-2xl bg-slate-100/90 p-1.5 dark:bg-slate-900/80 sm:grid-cols-5"
+      className="grid w-full grid-cols-2 gap-1.5 rounded-2xl bg-slate-100/90 p-1 sm:p-1.5 dark:bg-slate-900/80 sm:grid-cols-5"
     >
       {modes.map(({ value, label, symbol, icon: Icon }) => (
         <TabsTrigger
           key={value}
           value={value}
-          className={`flex h-10 items-center justify-center gap-1.5 rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-600 transition-all hover:text-slate-900 data-active:bg-white data-active:text-indigo-600 data-active:shadow-xs dark:text-slate-400 dark:hover:text-slate-200 dark:data-active:bg-slate-800 dark:data-active:text-indigo-300 sm:text-xs ${
+          className={`flex h-9 sm:h-10 items-center justify-center gap-1.5 rounded-xl px-2 py-1 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-slate-600 transition-all hover:text-slate-900 data-active:bg-white data-active:text-indigo-600 data-active:shadow-xs dark:text-slate-400 dark:hover:text-slate-200 dark:data-active:bg-slate-800 dark:data-active:text-indigo-300 ${
             value === 'expression' ? 'col-span-2 sm:col-span-1' : ''
           }`}
         >

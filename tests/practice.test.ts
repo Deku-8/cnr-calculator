@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { QUESTION_POOL, checkNumericAnswer, checkSubmission } from '../lib/practice.ts';
 
-void test('PracticeTrainer: ตรวจสอบคำตอบทั้ง 25 ข้อด้วยค่าตัวเลขและรูปแบบที่ยอมรับ', () => {
+void test('PracticeTrainer: ตรวจสอบคำตอบทั้ง 50 ข้อด้วยค่าตัวเลขและรูปแบบที่ยอมรับ', () => {
   for (const q of QUESTION_POOL) {
     // 1. Exact number
     assert.equal(
@@ -119,5 +119,40 @@ void test('PracticeTrainer: checkSubmission ครอบคลุม 5 เคร
   const q25 = QUESTION_POOL.find((q) => q.id === 25)!;
   const resExpr3 = checkSubmission({ mode: 'expression', expr: '4! * 4! * 2' }, q25);
   assert.equal(resExpr3.isAllCorrect, true);
+
+  // 6. Test new questions pool (Q26-Q50)
+  // Combination: ข้อ 30 (วิชาเลือกเสรี 7 วิชา เลือก 3)
+  const q30 = QUESTION_POOL.find((q) => q.id === 30)!;
+  const resC30 = checkSubmission({ mode: 'combination', n: '7', r: '3' }, q30);
+  assert.equal(resC30.isAllCorrect, true);
+  assert.equal(resC30.userDisplayString, 'C(7, 3)');
+
+  // Permutation: ข้อ 31 (ประธาน รองประธาน เลขา 10 คน)
+  const q31 = QUESTION_POOL.find((q) => q.id === 31)!;
+  const resP31 = checkSubmission({ mode: 'permutation', n: '10', r: '3' }, q31);
+  assert.equal(resP31.isAllCorrect, true);
+  assert.equal(resP31.userDisplayString, 'P(10, 3)');
+
+  // Multiset: ข้อ 38 (ตารางกริด ขวา 5 ขึ้น 3)
+  const q38 = QUESTION_POOL.find((q) => q.id === 38)!;
+  const resM38 = checkSubmission({ mode: 'multiset', n: '8', multisetCounts: '5, 3' }, q38);
+  assert.equal(resM38.isAllCorrect, true);
+
+  // Factorial: ข้อ 41 (คน 8 คน นั่งเก้าอี้ 8 ตัว)
+  const q41 = QUESTION_POOL.find((q) => q.id === 41)!;
+  const resF41 = checkSubmission({ mode: 'factorial', n: '8' }, q41);
+  assert.equal(resF41.isAllCorrect, true);
+
+  // Expression: ข้อ 48 (ความน่าจะเป็น ลูกแก้วขาว 6 ดำ 4 สุ่ม 2 ได้ขาว 2)
+  const q48 = QUESTION_POOL.find((q) => q.id === 48)!;
+  const resExpr48 = checkSubmission({ mode: 'expression', expr: 'C(6, 2) / C(10, 2)' }, q48);
+  assert.equal(resExpr48.isAllCorrect, true);
+  assert.equal(checkNumericAnswer('1/3', q48), true);
+  assert.equal(checkNumericAnswer('0.3333', q48), true);
+
+  // Expression: ข้อ 50 (P(5,2) * P(4,1))
+  const q50 = QUESTION_POOL.find((q) => q.id === 50)!;
+  const resExpr50 = checkSubmission({ mode: 'expression', expr: 'P(5, 2) * P(4, 1)' }, q50);
+  assert.equal(resExpr50.isAllCorrect, true);
 });
 

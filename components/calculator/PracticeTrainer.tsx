@@ -350,38 +350,52 @@ export function PracticeTrainer({
 
   // --- 2. ACTIVE QUIZ VIEW (กำลังทำโจทย์ข้อ 1-5) ---
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50/90 via-white to-blue-50/70 p-5 shadow-md dark:border-indigo-900/60 dark:from-indigo-950/40 dark:via-slate-900 dark:to-blue-950/30 sm:p-6 animate-in fade-in">
+    <section className="relative overflow-hidden rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50/90 via-white to-blue-50/70 p-4 sm:p-6 shadow-md dark:border-indigo-900/60 dark:from-indigo-950/40 dark:via-slate-900 dark:to-blue-950/30 animate-in fade-in">
       {/* Top Header */}
-      <div className="flex items-center justify-between border-b border-indigo-100 pb-3 dark:border-indigo-900/50">
-        <div className="flex items-center gap-2">
-          <span className="grid size-8 place-items-center rounded-xl bg-indigo-600 text-white shadow-xs">
-            <Award className="size-4" />
-          </span>
-          <div>
-            <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
-              <span>แบบฝึกหัดเลือกเครื่องมือและเติมตัวเลขสูตร</span>
-              <Badge
-                variant="outline"
-                className="text-[10px] font-bold border-indigo-300 bg-indigo-50/80 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-300"
-              >
-                ข้อที่ {currentIndex + 1} / {questions.length}
-              </Badge>
-            </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              เลือกเครื่องมือที่เหมาะสมแล้วเติมตัวเลขพารามิเตอร์ หรือพิมพ์นิพจน์คำนวณ
-            </p>
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between border-b border-indigo-100 pb-3 dark:border-indigo-900/50">
+        <div className="flex items-center justify-between sm:justify-start gap-2">
+          <div className="flex items-center gap-2">
+            <span className="grid size-8 place-items-center rounded-xl bg-indigo-600 text-white shadow-xs shrink-0">
+              <Award className="size-4" />
+            </span>
+            <div>
+              <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-center gap-1.5 sm:gap-2">
+                <span>แบบฝึกหัดเลือกเครื่องมือและเติมสูตร</span>
+                <Badge
+                  variant="outline"
+                  className="text-[10px] font-bold border-indigo-300 bg-indigo-50/80 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-300"
+                >
+                  ข้อที่ {currentIndex + 1}/{questions.length}
+                </Badge>
+              </h3>
+              <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">
+                เลือกเครื่องมือที่เหมาะสมแล้วเติมตัวเลขพารามิเตอร์
+              </p>
+            </div>
           </div>
+
+          {/* Close button on mobile */}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="sm:hidden rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              title="ปิดโหมดแบบฝึกหัด"
+            >
+              <X className="size-4" />
+            </button>
+          )}
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="rounded-full bg-indigo-100/90 px-2.5 py-0.5 text-xs font-bold text-indigo-800 dark:bg-indigo-900/80 dark:text-indigo-200">
+        <div className="flex items-center justify-between sm:justify-end gap-2">
+          <span className="rounded-full bg-indigo-100/90 px-2.5 py-0.5 text-[11px] sm:text-xs font-bold text-indigo-800 dark:bg-indigo-900/80 dark:text-indigo-200">
             คะแนนสะสม: {correctCount}/{currentIndex + (isAnswered ? 1 : 0)}
           </span>
           {onClose && (
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              className="hidden sm:block rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               title="ปิดโหมดแบบฝึกหัด"
             >
               <X className="size-4" />
@@ -426,7 +440,7 @@ export function PracticeTrainer({
                   type="button"
                   disabled={isAnswered}
                   onClick={() => setSelectedMode(opt.mode)}
-                  className={`flex flex-col items-start rounded-2xl border p-3 text-left transition-all ${
+                  className={`flex flex-col items-start rounded-2xl border p-2.5 sm:p-3 text-left transition-all ${
                     isChosen
                       ? 'border-indigo-600 bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-600/20'
                       : 'border-slate-200/90 bg-white text-slate-800 hover:border-indigo-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800/80'
@@ -434,7 +448,7 @@ export function PracticeTrainer({
                 >
                   <span className="font-bold text-xs sm:text-sm">{opt.label}</span>
                   <span
-                    className={`mt-0.5 text-[11px] leading-tight ${
+                    className={`mt-0.5 text-[10px] sm:text-[11px] leading-tight ${
                       isChosen ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >

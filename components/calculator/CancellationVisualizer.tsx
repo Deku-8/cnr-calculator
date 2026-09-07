@@ -297,8 +297,8 @@ export function CancellationVisualizer({
       </div>
 
       {/* Main Clean Fraction Display Canvas */}
-      <div className="math-scroll relative overflow-x-auto rounded-xl border border-slate-200/70 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-950/50">
-        <div className="mx-auto flex min-w-max items-center justify-center gap-3 py-3">
+      <div className="math-scroll relative overflow-x-auto rounded-xl border border-slate-200/70 bg-slate-50/70 p-3 sm:p-4 dark:border-slate-800 dark:bg-slate-950/50">
+        <div className="flex min-w-max items-center justify-start sm:justify-center gap-2.5 sm:gap-3 py-2 sm:py-3 px-1">
           <span className="font-mono text-xl font-bold text-slate-400 dark:text-slate-500">
             =
           </span>
@@ -306,7 +306,7 @@ export function CancellationVisualizer({
           {/* Fraction Block */}
           <div className="inline-flex flex-col items-center">
             {/* Numerator */}
-            <div className="flex items-center gap-2 pb-2 pt-5 font-mono text-base font-semibold sm:text-lg">
+            <div className="flex items-center gap-1.5 sm:gap-2 pb-2 pt-5 font-mono text-sm sm:text-base md:text-lg font-semibold">
               {numTerms.map((term, idx) => {
                 const color = term.colorKey ? colorStyles[term.colorKey] : null;
                 const isHovered = term.colorKey && hoveredColor === term.colorKey;
@@ -378,7 +378,7 @@ export function CancellationVisualizer({
             <div className="h-0.5 w-full rounded-full bg-slate-700 dark:bg-slate-300" />
 
             {/* Denominator */}
-            <div className="flex items-center gap-2 pt-2 pb-5 font-mono text-base font-semibold sm:text-lg">
+            <div className="flex items-center gap-1.5 sm:gap-2 pt-2 pb-5 font-mono text-sm sm:text-base md:text-lg font-semibold">
               {denTerms.map((term, idx) => {
                 const color = term.colorKey ? colorStyles[term.colorKey] : null;
                 const isHovered = term.colorKey && hoveredColor === term.colorKey;
