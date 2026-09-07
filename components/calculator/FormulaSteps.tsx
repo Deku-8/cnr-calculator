@@ -68,8 +68,8 @@ export function FormulaSteps({ calculation }: { calculation: Calculation }) {
 
       {/* Clean Unified Formula & Substitution Card */}
       <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2 text-xs dark:border-slate-800/80 min-w-0">
-          <span className="text-slate-500 dark:text-slate-400 shrink-0">สูตรที่ใช้:</span>
+        <div className="flex flex-wrap items-center justify-start gap-2.5 border-b border-slate-100 pb-2 text-xs dark:border-slate-800/80 min-w-0">
+          <span className="text-slate-500 dark:text-slate-400 shrink-0 font-medium">สูตรที่ใช้:</span>
           <MathEquation
             text={calculation.general}
             className="font-semibold text-indigo-600 dark:text-indigo-400"
