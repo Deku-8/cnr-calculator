@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpCircle, ArrowRight, Check, BookOpen, Shuffle, Sigma } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { HelpCircle, ArrowRight, Check, BookOpen, Shuffle, Sigma, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export function FormulaComparison() {
   const [open, setOpen] = useState(false);
@@ -15,18 +16,40 @@ export function FormulaComparison() {
         <span className="sm:hidden">เมื่อไหร่ใช้ C vs P?</span>
       </DialogTrigger>
 
-      <DialogContent className="max-w-2xl rounded-3xl p-6 sm:p-7">
-        <DialogHeader className="border-b pb-4">
-          <DialogTitle className="flex items-center gap-2 text-xl font-bold">
-            <BookOpen className="size-5 text-indigo-600 dark:text-indigo-400" />
-            เปรียบเทียบ Combination vs Permutation
-          </DialogTitle>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            เข้าใจความแตกต่างใน 1 นาที และหลักการตัดทอนตามทฤษฎีคอมบินาทอริก
-          </p>
-        </DialogHeader>
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-2xl max-h-[90dvh] sm:max-h-[85dvh] flex flex-col p-0 overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl"
+      >
+        {/* Sticky Header with Title and Touch-Friendly Close Button */}
+        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3.5 sm:px-6 sm:py-4 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0">
+          <div className="flex items-center gap-3 min-w-0 pr-2">
+            <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">
+              <BookOpen className="size-4.5" />
+            </div>
+            <div className="min-w-0">
+              <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 truncate">
+                เปรียบเทียบ Combination vs Permutation
+              </DialogTitle>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                เข้าใจความแตกต่างใน 1 นาที และหลักการตัดทอน
+              </p>
+            </div>
+          </div>
 
-        <div className="space-y-5 pt-3 text-sm">
+          {/* Dedicated Easy-to-Tap Close Button */}
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setOpen(false)}
+            className="size-9 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white shrink-0 cursor-pointer"
+            aria-label="ปิดหน้าต่าง"
+          >
+            <X className="size-4.5" />
+          </Button>
+        </div>
+
+        {/* Scrollable Content Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-sm math-scroll">
           {/* Side by side comparison cards */}
           <div className="grid gap-4 sm:grid-cols-2">
             {/* Combination Card */}
@@ -91,6 +114,17 @@ export function FormulaComparison() {
               เพราะในการทำ Combination เราเลือกของมาก่อน จากนั้นถ้าเรานำของ r ชิ้นนั้นมา “สลับที่กันเอง” อีก r! วิธี ก็จะได้จำนวนวิธีของ Permutation พอดี!
             </p>
           </div>
+        </div>
+
+        {/* Sticky Bottom Close Button */}
+        <div className="border-t border-slate-100 px-4 py-3 sm:px-6 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-950/70 backdrop-blur-sm shrink-0 flex items-center justify-end">
+          <Button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="w-full sm:w-auto h-9 font-semibold text-xs px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xs cursor-pointer"
+          >
+            ปิดหน้าต่าง (เข้าใจแล้ว)
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
