@@ -11,6 +11,7 @@ import {
   Percent,
   Divide,
   CornerDownLeft,
+  AlertCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -161,6 +162,12 @@ export function ExpressionCalculator({ initialExpr }: { initialExpr?: string }) 
           <span className="text-[11px] text-slate-400 font-mono truncate min-w-0 text-right">
             รองรับ C, P, !, +, −, ×, ÷, (), {'{}'}
           </span>
+        </div>
+
+        {/* Red Warning / Alert Banner */}
+        <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs sm:text-sm font-bold text-red-600 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-400 shadow-xs">
+          <AlertCircle className="size-4 shrink-0 text-red-600 dark:text-red-400" />
+          <span>ใส่วงเล็บตามการดำเนินการให้ถูกต้อง</span>
         </div>
 
         {/* Preset Chips */}
